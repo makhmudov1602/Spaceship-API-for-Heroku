@@ -47,29 +47,26 @@ class model_input(BaseModel):
 spaceship_pred = pickle.load(open('spaceship_prediction.sav', 'rb'))
 
 @app.post('/spaceship_pred')
-
-
-
-
-def spaceship_predoction(input_parameters:model_input):
-    input_data= input_parameters.json()
-    input_dictionary = json.loads(input_data)
+def spaceship_prediction(input_parameters: model_input):
+    # Convert pydantic model to dict directly
+    input_data = input_parameters.dict()
     
+    # Safely extract each value
+    hp = input_data['HomePlanet']
+    cs = input_data['CryoSleep']
+    dest = input_data['Destination']
+    age = input_data['Age']
+    vip = input_data['VIP']
+    rs = input_data['RoomService']
+    fc = input_data['FoodCourt']
+    shopma = input_data['ShoppingMall']
+    spa = input_data['Spa']
+    vrd = input_data['VRDeck']
+    deck = input_data['Deck']
+    canum = input_data['CabinNum']
+    side = input_data['Side']
     
-    hp = input_dictionary['HomePlanet']
-    cs = input_dictionary['CryoSleep']
-    dest = input_dictionary['Destination']
-    age = input_parameters['Age']
-    vip = input_parameters['VIP']
-    rs = input_parameters['RoomService']
-    fc = input_parameters['FoodCourt'] 
-    shopma = input_parameters['ShoppingMall']
-    spa = input_parameters['Spa']
-    vrd = input_parameters['VRDeck']
-    canum = input_parameters['CabinNum']
-    side = input_parameters['Side']
-    
-    input_list = [hp, cs, dest, age, vip, rs, fc, shopma, spa,vrd, canum, side]
+    input_list = [hp, cs, dest, age, vip, rs, fc, shopma, spa, vrd, deck, canum, side]
     
     prediction = spaceship_pred.predict([input_list])
     
